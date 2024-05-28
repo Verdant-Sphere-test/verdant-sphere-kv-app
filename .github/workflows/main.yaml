@@ -3,12 +3,12 @@ name: "Main workflow"
 on:
   pull_request:
     branches:
-      -dev
+      - "dev"
 jobs:
   build:
-    name: "Buid laravel App"
+    name: "Build Laravel App"
     runs-on: ubuntu-latest
-    steps: 
-      -name: Print Hello
+    steps:
+      - name: Print Hello
         run: |
           echo "hello world"
