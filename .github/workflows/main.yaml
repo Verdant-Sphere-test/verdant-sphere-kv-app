@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - dev
+      - main
 
 env:
   PORT: 3000
@@ -28,6 +29,12 @@ jobs:
       - name: Build the Application
         run: |
           php artisan key:generate
+      - name: Run MySQL
+        run: |
+          docker run -d -p 3306:3306 mysql:latest
+      - name: Migrate the Database
+        run: |
+          php artisan migrate
       - name: Run Unit Test
         run: |
           php artisan test
