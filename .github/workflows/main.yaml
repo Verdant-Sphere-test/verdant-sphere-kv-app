@@ -26,7 +26,7 @@ jobs:
           composer install
       - name: Setup Env
         run: |
-          cp .env.ci .
+          cp .env.ci .env
       - name: Generate the Key
         run: |
           php artisan key:generate
@@ -57,7 +57,7 @@ jobs:
           composer install
       - name: Setup Env
         run: |
-          cp .env.ci .
+          cp .env.ci .env
       - name: Migrate the database
         run: |
           php artisan migrate
