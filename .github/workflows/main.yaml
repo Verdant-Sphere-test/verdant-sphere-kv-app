@@ -24,6 +24,11 @@ jobs:
       - name: Install Dependencies
         run: |
           composer install
+      - name: Cache Primes
+        uses: actions/cache@v4
+        with:
+          key: php-vendor-cache
+          path: ./vendor
       - name: Setup Env
         run: |
           cp .env.ci .env
@@ -52,9 +57,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-      - name: Install Dependencies
-        run: |
-          composer install
+      - name: Restore the cache
+        uses: actions/cache@v4
+        with:
+          path: ./vendor
+          key: php-vendor-cache
       - name: Setup Env
         run: |
           cp .env.ci .env
