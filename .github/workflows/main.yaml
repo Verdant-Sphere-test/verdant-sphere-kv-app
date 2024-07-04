@@ -1,14 +1,73 @@
-name: "Main workflow"
+name: Main Workflow
 
 on:
+  push:
   pull_request:
     branches:
-      - "dev"
+      - dev
+      - main
+
+env:
+  PORT: 3000
+
 jobs:
   build:
-    name: "Build Laravel App"
+    name: Build Laravel App
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Dependencies
         run: |
-          echo "hello world"
+          composer install
+      - name: Cache Primes
+        uses: actions/cache@v4
+        with:
+          key: php-vendor-cache
+          path: ./vendor
+      - name: Setup Env
+        run: |
+          cp .env.ci .env
+      - name: Generate the Key
+        run: |
+          php artisan key:generate
+     
+  test:
+    name: Test the application
+    runs-on: ubuntu-latest
+    needs: [build]
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password 
+          MYSQL_USERNAME: root
+          MYSQL_DATABASE: test 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - name: Restore the cache
+        uses: actions/cache@v4
+        with:
+          path: ./vendor
+          key: php-vendor-cache
+      - name: Setup Env
+        run: |
+          cp .env.ci .env
+      - name: Migrate the database
+        run: |
+          php artisan migrate
+      - name: Run Unit Test
+        run: |
+          php artisan test
