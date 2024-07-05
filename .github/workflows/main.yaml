@@ -32,6 +32,7 @@ jobs:
       - name: Setup Env
         run: |
           cp .env.ci .env
+          cp .env.ci .env.testing
       - name: Generate the Key
         run: |
           php artisan key:generate
@@ -62,6 +63,10 @@ jobs:
         with:
           path: ./vendor
           key: php-vendor-cache
+      - name: Composer Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          composer install
       - name: Setup Env
         run: |
           cp .env.ci .env
