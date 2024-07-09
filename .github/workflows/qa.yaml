@@ -1,25 +1,17 @@
-name: Main Workflow
+name: QA Workflow
 
-on:
-  push:
-  pull_request:
-    branches:
-      - dev
-      - main
-
-env:
-  PORT: 3000
+on: workflow_dispatch
 
 jobs:
-  build:
+  build-version-83:
     name: "Build"
     uses: ./.github/workflows/build.yaml
     with:
-      version: "8.2"
+      version: "8.3"
 
-  test:
+  build-version82:
     name: "Test"
     needs: [build]
     uses: ./.github/workflows/test.yaml
     with:
-      version: "8.3"
+      version: "8.2"
