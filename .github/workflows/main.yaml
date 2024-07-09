@@ -13,8 +13,8 @@ env:
 jobs:
   build:
     name: "Build"
-    uses: ./github/workflows/build.yaml
+    uses: ./.github/workflows/build.yaml
      
   test:
     name: "Test"
-    uses: ./github/workflows/test.yaml
+    uses: ./.github/workflows/test.yaml
