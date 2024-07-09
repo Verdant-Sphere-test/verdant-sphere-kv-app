@@ -2,10 +2,6 @@ name: Test the Application
 
 on: 
   workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
 
 jobs:
   test:
@@ -27,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{inputs.version}}
+          php-version: "8.2"
       - name: Restore the cache
         uses: actions/cache@v4
         with:

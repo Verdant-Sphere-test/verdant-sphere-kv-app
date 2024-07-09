@@ -21,5 +21,3 @@ jobs:
     name: "Test"
     needs: [build]
     uses: ./.github/workflows/test.yaml
-    with:
-      version: "8.3"
