@@ -14,7 +14,8 @@ jobs:
   build:
     name: "Build"
     uses: ./.github/workflows/build.yaml
-     
+
   test:
     name: "Test"
+    needs: [build]
     uses: ./.github/workflows/test.yaml
